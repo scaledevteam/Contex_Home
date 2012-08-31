@@ -8,7 +8,7 @@ public class Question {
 	private String d;
 	private int id;
 	private int answer = -1;
-	
+	private String location;
 	public String getQuestion() {
 		return question;
 	}
@@ -50,6 +50,12 @@ public class Question {
 	}
 	public void setAnswer(int answer) {
 		this.answer = answer;
+	}
+	public String getLocation() {
+		return location;
+	}
+	public void setLocation(String location) {
+		this.location = location;
 	}
 	
 	

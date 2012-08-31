@@ -7,6 +7,7 @@
         android:minSdkVersion="3"
         android:targetSdkVersion="15" />
 	<uses-permission android:name="android.permission.VIBRATE"/>
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />	
     
     <application
         android:icon="@android:drawable/ic_menu_edit"
@@ -37,10 +38,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>            
-        </activity>
-        <activity android:name="TestActivity"
-             android:label="@string/title_activity_questionnaire"
-            android:theme="@android:style/Theme.NoTitleBar">
         </activity>
     </application>
 

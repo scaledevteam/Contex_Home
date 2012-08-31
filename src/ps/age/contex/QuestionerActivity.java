@@ -1,6 +1,7 @@
 package ps.age.contex;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.app.Activity;
 import android.app.NotificationManager;
 import android.content.SharedPreferences;
@@ -14,10 +15,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 import ps.age.contex.R;
 import ps.age.util.DBManager;
+import ps.age.util.GpsHandler;
+import ps.age.util.LocListener;
 import static ps.age.contex.SettingsActivity.*;
 import static ps.age.contex.AlarmBroadcastReceiver.NOTIFICATION_ID;
 
-public class QuestionerActivity extends Activity {
+public class QuestionerActivity extends Activity implements LocListener {
 	
 	TextView mQuestion;
 	RadioButton mRadio0;
@@ -28,6 +31,12 @@ public class QuestionerActivity extends Activity {
 	Button mDone;
 	Question currentQuestion;
 	int mPending;
+	String mLocation;
+	GpsHandler gpsHandler;
+	Handler mHandler;
+	
+	double mLong = -1;
+	double mLat  = -1;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,6 +57,11 @@ public class QuestionerActivity extends Activity {
         
         mDone.setOnClickListener(listener);
         
+        gpsHandler = new GpsHandler(this);
+        gpsHandler.setLocationListener(this);
+        if(!gpsHandler.isGpsEnabled())
+        	gpsHandler.showGpsOptions();
+        
         loadQuestion();
         //get Question
 
@@ -57,6 +71,7 @@ public class QuestionerActivity extends Activity {
     	super.onPause();
     	Log.e(tag, "onPause "+String.valueOf(mPending));
     	if(isFinishing()){
+    		gpsHandler.stopListening();
 			SharedPreferences pref = getSharedPreferences(PREF,MODE_PRIVATE);
 			pref.edit().putInt(PENDING, mPending)
 				.commit();
@@ -104,6 +119,22 @@ public class QuestionerActivity extends Activity {
 			case R.id.radio3: currentQuestion.setAnswer(4); break;
 			default: finish(); return;
 			}
+			if((mLong == -1) && (mLat == -1)){
+				double[] result = gpsHandler.getLastKnownLocation();
+				if(result != null)
+				{
+					mLat  = result[0];
+					mLong = result[1];
+					currentQuestion.setLocation(String.valueOf(mLat)+":"+String.valueOf(mLong));
+				}
+				else
+				{
+					currentQuestion.setLocation("N.A");
+				}
+				
+			}else{
+				currentQuestion.setLocation(String.valueOf(mLat)+":"+String.valueOf(mLong));
+			}
 			saveQuestion();
 			mPending --;
 			
@@ -117,4 +148,11 @@ public class QuestionerActivity extends Activity {
 		}
     	
     };
+
+	@Override
+	public void updateLocation(double longitude, double latitude) {
+		this.mLat  = latitude;
+		this.mLong = longitude;
+		gpsHandler.stopListening();
+	}
 }

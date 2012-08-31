@@ -23,7 +23,7 @@ public class DBManager {
 	  private static final String CHOICE_C			= "c";
 	  private static final String CHOICE_D	  		= "d";	  
 	  private static final String ID   				= "id";
-
+	  private static final String LOCATION          = "lcoation";
 	  /*
 	   * type of the extra associated with question , currently only URL's are supported 
 	   */
@@ -47,12 +47,14 @@ public class DBManager {
 			  int b    		= cursor.getColumnIndex(CHOICE_B);
 			  int c	        = cursor.getColumnIndex(CHOICE_C);
 			  int d   	    = cursor.getColumnIndex(CHOICE_D);
+			  int loc       = cursor.getColumnIndex(LOCATION);
 			  object.setId(cursor.getInt(id));
 			  object.setQuestion(cursor.getString(question));
 			  object.setA(cursor.getString(a));
 			  object.setB(cursor.getString(b));
 			  object.setC(cursor.getString(c));
-			  object.setD(cursor.getString(d));				  
+			  object.setD(cursor.getString(d));				
+			  object.setLocation(cursor.getString(loc));
 			  cursor.close();
 			  return object;
 		  }
@@ -73,7 +75,7 @@ public class DBManager {
 		  values.put(CHOICE_C, question.getC());
 		  values.put(CHOICE_D, question.getD());
 		  values.put(ANSWER, question.getAnswer());
-		  
+		  values.put(LOCATION, question.getLocation());
 		  int numRows = db.update(QUESTIONS_TABLE, values, "id=?", new String[] { Long.toString(question.getId()) });
 		  if(numRows == 1)
 			  return true;		  
