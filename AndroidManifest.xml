@@ -1,0 +1,47 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="ps.age.contex"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="3"
+        android:targetSdkVersion="15" />
+	<uses-permission android:name="android.permission.VIBRATE"/>
+    
+    <application
+        android:icon="@android:drawable/ic_menu_edit"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name=".QuestionerActivity"
+            android:label="@string/title_activity_questionnaire"
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:noHistory="true"
+            android:excludeFromRecents="true" >
+        </activity>
+
+        <receiver android:name="AlarmBroadcastReceiver" >
+        </receiver>
+        <receiver android:name=".BootBroadcastReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name="SettingsActivity"
+            android:label="@string/title_activity_questionnaire"
+            android:theme="@android:style/Theme.NoTitleBar" >
+             <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>            
+        </activity>
+        <activity android:name="TestActivity"
+             android:label="@string/title_activity_questionnaire"
+            android:theme="@android:style/Theme.NoTitleBar">
+        </activity>
+    </application>
+
+</manifest>

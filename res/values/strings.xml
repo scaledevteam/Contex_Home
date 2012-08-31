@@ -1,0 +1,16 @@
+<resources>
+
+    <string name="app_name">Contex</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_questionnaire">Questionnaire</string>
+	<string name="done">done</string>
+	<string name="start">Start Time</string>
+	<string name="end">End Time</string>
+	<string name="total">Daily Total</string>
+	<string name="settings">Settings</string>	
+	<string name="hint"></string>
+	<string name="notification">New question available</string>
+	<string name="error_input">Input value is not allowed !</string>
+	<string name="error_empty">No questions available</string>
+</resources>
