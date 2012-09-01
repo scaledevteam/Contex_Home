@@ -1,5 +1,6 @@
 package ps.age.util;
 
+import android.app.AlertDialog;
 import android.content.*;
 import android.location.*;
 import android.os.*;
@@ -20,10 +21,24 @@ public class GpsHandler implements LocationListener {
 	}
 
 	public void showGpsOptions() {
-		Intent gpsOptionsIntent = new Intent(
-				android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-		gpsOptionsIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		context.startActivity(gpsOptionsIntent);
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
+		builder.setMessage("Do you want to enable GPS?")
+		       .setCancelable(false)
+		       .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+		           public void onClick(DialogInterface dialog, int id) {
+		       		Intent gpsOptionsIntent = new Intent(
+		    				android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+		    		gpsOptionsIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		    		context.startActivity(gpsOptionsIntent);
+		           }
+		       })
+		       .setNegativeButton("No", new DialogInterface.OnClickListener() {
+		           public void onClick(DialogInterface dialog, int id) {
+		                dialog.cancel();
+		           }
+		       });
+		AlertDialog alert = builder.create();
+		alert.show();
 	}
 
 	public double[] getLastKnownLocation() {
@@ -31,6 +46,9 @@ public class GpsHandler implements LocationListener {
 			android.location.Location loc = locManager
 					.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 			
+			if(loc == null)
+				return null;;
+				
 			double[] array = new double[] { loc.getLatitude(),
 					loc.getLongitude() };
 			return array;

@@ -42,6 +42,7 @@ public class QuestionerActivity extends Activity implements LocListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.questioner);
+        try{
         mPending = getSharedPreferences(PREF,MODE_PRIVATE).getInt(PENDING, 0);
         if(mPending == 0){
         	finish();
@@ -64,7 +65,9 @@ public class QuestionerActivity extends Activity implements LocListener {
         
         loadQuestion();
         //get Question
-
+        }catch(Exception e){
+        	Log.e(tag, e.toString());
+        }
     }
     @Override
     protected void onPause(){
